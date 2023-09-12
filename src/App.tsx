@@ -10,7 +10,7 @@ function App() {
       element: <Home />,
     },
     {
-      path: "/:name",
+      path: "/:id",
       element: <EditPage />,
     },
   ]);

@@ -23,5 +23,5 @@ input[type="text"] {
 }
 
 .select-wrapper .select__option--is-selected {
-  background-color: red;
+  background-color: #4f45e4;
 }

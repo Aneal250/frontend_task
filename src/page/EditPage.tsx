@@ -9,6 +9,8 @@ import {
 } from "../utils/helper";
 import Select from "react-select";
 import { Option } from "../components/SelectHelperComponents";
+import { useNavigate, useParams } from "react-router-dom";
+import baseAxios from "../utils/axios";
 
 const EditPage = () => {
   const [inputValues, setInputValues] = useState<InputValue>(() => {
@@ -18,13 +20,23 @@ const EditPage = () => {
   const [formErrors, setSetFormErrors] = useState<FormErrors>();
   const [isSumitForm, setIsSumitForm] = useState(false);
 
+  const navigate = useNavigate();
+  let { id } = useParams();
+
+  // get User Session
+  const userHasSession = sessionStorage.getItem("user");
+
+  // Handle select Sector
   const handleSectorInput = (value: any) => {
+    console.log(value);
+    const sector = value.name;
     setInputValues({
       ...inputValues,
-      sector: value,
+      sector,
     });
   };
 
+  // handle Onchange Input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : e.target.value;
@@ -34,8 +46,11 @@ const EditPage = () => {
     });
   };
 
-  const handleSubmit = (e: any) => {
+  // Handle Edit Form
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    // form Validaton
     setIsSumitForm(true);
     const dataErrors = Validation(inputValues);
     setSetFormErrors(dataErrors);
@@ -43,10 +58,13 @@ const EditPage = () => {
       return;
     }
 
+    // Api Call to Update Application
+    const response = await baseAxios.patch(`/application/${id}`, inputValues);
+
     saveDataToLocalStorage("formData", inputValues);
-    console.log("Form data submitted:", inputValues);
   };
 
+  // Validaton side Effects
   useEffect(() => {
     if (isSumitForm) {
       const dataErrors = Validation(inputValues);
@@ -54,12 +72,15 @@ const EditPage = () => {
     }
   }, [isSumitForm, inputValues, setInputValues]);
 
-  useEffect(() => {}, []);
+  // Handle checks if there is no session
+  useEffect(() => {
+    if (!userHasSession) navigate("/");
+  }, [userHasSession]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center  font-light leading-9 tracking-tight text-gray-900">
+        <h2 className="mt-6 text-center text-xl font-light leading-9 tracking-tight text-gray-900">
           View your name and Sectors you are currently involved in.
         </h2>
       </div>
@@ -77,7 +98,7 @@ const EditPage = () => {
                 id="name"
                 value={inputValues.name}
                 onChange={handleInputChange}
-                className="block w-full rounded border-0 p-2 text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 text-sm "
+                className="block w-full rounded border-0 p-2 text-black  ring-1 ring-inset ring-gray-300 placeholder:text-[#808080]"
                 placeholder="Enter your Name"
               />
               {formErrors && (
@@ -87,7 +108,6 @@ const EditPage = () => {
               )}
             </div>
 
-            {/* Select Input Field*/}
             <Select
               components={{
                 Option,
@@ -105,7 +125,7 @@ const EditPage = () => {
               }}
               onChange={handleSectorInput}
               options={sectors}
-              value={inputValues.sector}
+              value={{ id: 2, name: `${inputValues.sector}` }}
               placeholder="Please select a sector"
               className="select-wrapper"
               classNamePrefix="select"
@@ -148,6 +168,19 @@ const EditPage = () => {
               </button>
             </div>
           </form>
+          <div className="flex justify-end my-2">
+            <p
+              className="font-thin text-sm text-indigo-600 cursor-pointer"
+              onClick={() => {
+                navigate("/");
+                localStorage.clear();
+                sessionStorage.clear();
+              }}
+            >
+              {" "}
+              Log out
+            </p>
+          </div>
         </div>
       </div>
     </div>

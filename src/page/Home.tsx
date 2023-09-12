@@ -7,6 +7,7 @@ import { saveDataToLocalStorage } from "../utils/helper";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { Option } from "../components/SelectHelperComponents";
+import baseAxios from "../utils/axios";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,13 +20,16 @@ const Home = () => {
   const [formErrors, setSetFormErrors] = useState<FormErrors>();
   const [isSumitForm, setIsSumitForm] = useState(false);
 
+  // Handle select Sector
   const handleSectorInput = (value: any) => {
+    const sector = value.name;
     setInputValues({
       ...inputValues,
-      sector: value,
+      sector,
     });
   };
 
+  // handle Onchange Input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : e.target.value;
@@ -35,35 +39,35 @@ const Home = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // handle Submit Form
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // form Validaton
     setIsSumitForm(true);
     const dataErrors = Validation(inputValues);
     setSetFormErrors(dataErrors);
-    if (dataErrors?.name || dataErrors?.sector || dataErrors?.agreeTerms) {
+    if (dataErrors?.name || dataErrors?.sector || dataErrors?.agreedTerms) {
       return;
     }
 
+    // Api Call to Handle Application
+    const response = await baseAxios.post("/application", inputValues);
+
+    // save Data to Local Storage
     saveDataToLocalStorage("formData", inputValues);
-    console.log("Form data submitted:", inputValues);
-    navigate(`/${inputValues.name}`);
+
+    // navige to Edit Page
+    navigate(`/${response?.data.response._id}`);
   };
 
+  // Validaton side Effects
   useEffect(() => {
     if (isSumitForm) {
       const dataErrors = Validation(inputValues);
       setSetFormErrors(dataErrors);
     }
   }, [isSumitForm, inputValues, setInputValues]);
-
-  const customStyles = {
-    option: (base, { data, isDisabled, isFocused, isSelected }) => {
-      return {
-        ...base,
-        backgroundColor: isFocused ? "red" : "blue",
-      };
-    },
-  };
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -87,7 +91,7 @@ const Home = () => {
                 id="name"
                 value={inputValues.name}
                 onChange={handleInputChange}
-                className=" w-full rounded border-0 p-2 text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-900  bg-transparent focus:outline-none"
+                className=" w-full rounded border-0 p-2 text-black  ring-1 ring-inset ring-gray-300 placeholder:text-[#808080]  bg-transparent focus:outline-none"
                 placeholder="Enter your Name"
               />
               {formErrors && (
