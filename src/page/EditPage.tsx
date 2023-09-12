@@ -107,9 +107,14 @@ const EditPage = () => {
               options={sectors}
               value={inputValues.sector}
               placeholder="Please select a sector"
-              className="cursor-pointer"
-              classNamePrefix="cursor-pointer"
+              className="select-wrapper"
+              classNamePrefix="select"
             />
+            {formErrors && (
+              <span className="text-red-600 mt-0.5 text-[0.625rem] sm:text-xs">
+                {formErrors?.sector}
+              </span>
+            )}
 
             <div className="flex items-center">
               <input

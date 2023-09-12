@@ -1,27 +1,57 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This template provides a minimal setup to get react working in vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## Project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Simple Form Project
 
-## Expanding the ESLint configuration
+This a basic Form Application allows users to enter their name and the industry in which they work. There are three input fields in the application.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+```
+   inputFormValues = {
+      name: string,
+      sector: string
+      agreeTerms: boolen
+   }
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Deployed [Link](https://simpleform-git-develop-aneal250.vercel.app)
+
+## Project Setup
+
+```sh
+git clone https://github.com/Aneal250/weather-app.git
+```
+
+### Clone the repo to your local machine
+
+```sh
+npm install
+```
+
+### Use npm install to install all the necessary dependencies.
+
+```sh
+npm run dev
+```
+
+### Run the app Locally using `npm run dev`
+
+```sh
+npm run build
+```
+
+### Technologies | APIs
+
+1. vite bundler (Option API)[https://vitejs.dev/]
+2. React Js (ReactJs)[https://react.dev/]
+3. Typescript (Typescript)[https://www.typescriptlang.org/]
+4. Vercel (Vercel)[https://vercel.com/]
+
+### Notes | Challenges
+
+1. The Nested pick option was extremely difficult to implement so that a user could only select the children sectors of the parents .i.e., impossible to choose sectors containing children.
+
+2. 

@@ -56,10 +56,19 @@ const Home = () => {
     }
   }, [isSumitForm, inputValues, setInputValues]);
 
+  const customStyles = {
+    option: (base, { data, isDisabled, isFocused, isSelected }) => {
+      return {
+        ...base,
+        backgroundColor: isFocused ? "red" : "blue",
+      };
+    },
+  };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center  font-light leading-9 tracking-tight text-gray-900">
+        <h2 className="mt-6 text-center text-xl font-light leading-9 tracking-tight text-gray-900">
           Please enter your name and pick the Sectors you are currently involved
           in.
         </h2>
@@ -78,7 +87,7 @@ const Home = () => {
                 id="name"
                 value={inputValues.name}
                 onChange={handleInputChange}
-                className="block w-full rounded border-0 p-2 text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 text-sm "
+                className=" w-full rounded border-0 p-2 text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-900  bg-transparent focus:outline-none"
                 placeholder="Enter your Name"
               />
               {formErrors && (
@@ -107,9 +116,14 @@ const Home = () => {
               onChange={handleSectorInput}
               options={sectors}
               placeholder="Please select a sector"
-              className="cursor-pointer text-sm"
-              classNamePrefix="cursor-pointer"
+              className="select-wrapper"
+              classNamePrefix="select"
             />
+            {formErrors && (
+              <span className="text-red-600 mt-0.5 text-[0.625rem] sm:text-xs">
+                {formErrors?.sector}
+              </span>
+            )}
 
             <div className="flex items-center">
               <input
@@ -118,7 +132,7 @@ const Home = () => {
                 type="checkbox"
                 checked={inputValues.agreeTerms}
                 onChange={handleInputChange}
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 .placeholder-gray-300"
               />
               <label
                 htmlFor="remember-me"

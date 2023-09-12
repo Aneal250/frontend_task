@@ -8,6 +8,20 @@
   box-sizing: border-box;
 }
 
-.react-select-list-3-listbox:hover {
+.react-select-3-listbox {
   background-color: none !important;
+}
+
+input[type="text"] {
+  background-color: transparent !important;
+}
+
+.select-wrapper .select__option:hover {
+  background-color: #4f45e4;
+  color: white;
+  cursor: pointer;
+}
+
+.select-wrapper .select__option--is-selected {
+  background-color: red;
 }

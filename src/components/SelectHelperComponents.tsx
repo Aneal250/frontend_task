@@ -9,6 +9,8 @@ const renderNestedOption = (props: any, label: any, nestedOptions: any) => {
         style={{
           color: "grey",
           paddingLeft: "20px",
+          paddingTop: "10px",
+          paddingBottom: "10px",
         }}
       >
         {label}
