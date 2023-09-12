@@ -14,7 +14,7 @@ const Validation = (inputValues: InputValue) => {
     errors.sector = "Please select a sector";
   }
   if (inputValues.agreeTerms === false) {
-    errors.agreeTerms = "Please select the check box";
+    errors.agreeTerms = "Please check box";
   }
   return errors;
 };

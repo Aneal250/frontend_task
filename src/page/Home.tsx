@@ -8,10 +8,9 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { Option } from "../components/SelectHelperComponents";
 import baseAxios from "../utils/axios";
+import { useAlert } from "../context/AlertProvider";
 
 const Home = () => {
-  const navigate = useNavigate();
-
   const [inputValues, setInputValues] = useState<InputValue>({
     name: "",
     sector: "",
@@ -19,6 +18,9 @@ const Home = () => {
   });
   const [formErrors, setSetFormErrors] = useState<FormErrors>();
   const [isSumitForm, setIsSumitForm] = useState(false);
+
+  const navigate = useNavigate();
+  const { alert } = useAlert();
 
   // Handle select Sector
   const handleSectorInput = (value: any) => {
@@ -52,13 +54,17 @@ const Home = () => {
     }
 
     // Api Call to Handle Application
-    const response = await baseAxios.post("/application", inputValues);
+    try {
+      const response = await baseAxios.post("/application", inputValues);
+      // save Data to Local Storage
+      saveDataToLocalStorage("formData", inputValues);
+      alert.success("Application was saved Successfully");
 
-    // save Data to Local Storage
-    saveDataToLocalStorage("formData", inputValues);
-
-    // navige to Edit Page
-    navigate(`/${response?.data.response._id}`);
+      // navige to Edit Page
+      navigate(`/${response?.data.response._id}`);
+    } catch (error) {
+      alert.error("Error: Unable to Save Application");
+    }
   };
 
   // Validaton side Effects
@@ -73,7 +79,7 @@ const Home = () => {
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-xl font-light leading-9 tracking-tight text-gray-900">
-          Please enter your name and pick the Sectors you are currently involved
+          Please enter Your Name and pick the Sector you are currently involved
           in.
         </h2>
       </div>

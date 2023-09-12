@@ -11,6 +11,7 @@ import Select from "react-select";
 import { Option } from "../components/SelectHelperComponents";
 import { useNavigate, useParams } from "react-router-dom";
 import baseAxios from "../utils/axios";
+import { useAlert } from "../context/AlertProvider";
 
 const EditPage = () => {
   const [inputValues, setInputValues] = useState<InputValue>(() => {
@@ -20,6 +21,7 @@ const EditPage = () => {
   const [formErrors, setSetFormErrors] = useState<FormErrors>();
   const [isSumitForm, setIsSumitForm] = useState(false);
 
+  const { alert } = useAlert();
   const navigate = useNavigate();
   let { id } = useParams();
 
@@ -57,11 +59,14 @@ const EditPage = () => {
     if (dataErrors?.name || dataErrors?.sector || dataErrors?.agreeTerms) {
       return;
     }
-
     // Api Call to Update Application
-    const response = await baseAxios.patch(`/application/${id}`, inputValues);
-
-    saveDataToLocalStorage("formData", inputValues);
+    try {
+      const response = await baseAxios.patch(`/application/${id}`, inputValues);
+      alert.success("Application Edit was Successfull");
+      saveDataToLocalStorage("formData", inputValues);
+    } catch (error) {
+      alert.error("Error: Unable to Edit Application");
+    }
   };
 
   // Validaton side Effects
@@ -81,7 +86,7 @@ const EditPage = () => {
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-xl font-light leading-9 tracking-tight text-gray-900">
-          View your name and Sectors you are currently involved in.
+          View Your Name and Sector you are currently involved in.
         </h2>
       </div>
 
