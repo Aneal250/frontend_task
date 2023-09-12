@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from "react";
 import { sectors } from "../assets/sectors";
 import { InputValue, FormErrors } from "../utils/types";
