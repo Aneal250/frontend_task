@@ -20,6 +20,7 @@ const EditPage = () => {
   });
   const [formErrors, setSetFormErrors] = useState<FormErrors>();
   const [isSumitForm, setIsSumitForm] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
   const { alert } = useAlert();
   const navigate = useNavigate();
@@ -59,13 +60,17 @@ const EditPage = () => {
     if (dataErrors?.name || dataErrors?.sector || dataErrors?.agreeTerms) {
       return;
     }
+
+    setisLoading(true);
     // Api Call to Update Application
     try {
       const response = await baseAxios.patch(`/application/${id}`, inputValues);
       alert.success("Application Edit was Successfull");
       saveDataToLocalStorage("formData", inputValues);
+      setisLoading(false);
     } catch (error) {
       alert.error("Error: Unable to Edit Application");
+      setisLoading(false);
     }
   };
 
@@ -169,7 +174,7 @@ const EditPage = () => {
                 type="submit"
                 className="flex w-full justify-center rounded bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white  hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Edit
+                {isLoading ? "Editing..." : "Edit"}
               </button>
             </div>
           </form>

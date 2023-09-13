@@ -18,6 +18,7 @@ const Home = () => {
   });
   const [formErrors, setSetFormErrors] = useState<FormErrors>();
   const [isSumitForm, setIsSumitForm] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
   const navigate = useNavigate();
   const { alert } = useAlert();
@@ -53,17 +54,21 @@ const Home = () => {
       return;
     }
 
+    setisLoading(true);
     // Api Call to Handle Application
     try {
       const response = await baseAxios.post("/application", inputValues);
+      console.log(response, "checking");
       // save Data to Local Storage
       saveDataToLocalStorage("formData", inputValues);
       alert.success("Application was saved Successfully");
 
+      setisLoading(false);
       // navige to Edit Page
       navigate(`/${response?.data.response._id}`);
     } catch (error) {
       alert.error("Error: Unable to Save Application");
+      setisLoading(false);
     }
   };
 
@@ -163,7 +168,7 @@ const Home = () => {
                 type="submit"
                 className="flex w-full justify-center rounded bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white  hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Save
+                {isLoading ? "Saving..." : "Save"}
               </button>
             </div>
           </form>

@@ -29,6 +29,8 @@ Basic Functionality
 Application Deployment
 [Frontend App Link](https://simpleform-git-develop-aneal250.vercel.app)
 [Backend API ](https://simple-contract.onrender.com/applications) ` fetch all forms`
+[Api Documentation](https://documenter.getpostman.com/view/17286348/2s9YC4TXzs)
+[get All Sectors](https://simple-contract.onrender.com/sectors)
 
 ## Project Setup
 
@@ -50,6 +52,7 @@ npm run dev
 2. [React Js ](https://react.dev/)
 3. [Typescript ](https://www.typescriptlang.org/)
 4. [Vercel Vercel](https://vercel.com/)
+5. [render](https://render.com/)
 
 ### Notes | Challenges
 
