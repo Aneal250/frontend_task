@@ -32,6 +32,9 @@ Application Deployment
 [Api Documentation](https://documenter.getpostman.com/view/17286348/2s9YC4TXzs)
 [get All Sectors](https://simple-contract.onrender.com/sectors)
 
+Redeployed the Backend API to Railway
+[get All Applications](https://simplecontract-production.up.railway.app/applications)
+
 ## Project Setup
 
 ```sh
@@ -53,6 +56,7 @@ npm run dev
 3. [Typescript ](https://www.typescriptlang.org/)
 4. [Vercel Vercel](https://vercel.com/)
 5. [render](https://render.com/)
+6. [railway](https://railway.app/)
 
 ### Notes | Challenges
 
